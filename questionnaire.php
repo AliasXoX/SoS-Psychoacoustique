@@ -19,7 +19,8 @@ else{
     elseif (isset($_POST["send"])) {
         $_SESSION["question".$_SESSION["question"]] = $_POST["reponse"];
         try{
-            $db = new PDO('mysql:host=localhost;dbname=sos', 'root', '');
+            //Send all the informations to the database
+            /*$db = new PDO('mysql:host=localhost;dbname=enter_db_name', 'root', 'password');
 
             $sql = $db->prepare('INSERT INTO `main`(`question1`, `question2`, `question3`, `question4`, `question5`, `question6`, `question7`, `question8`, `question9`, `question10`) VALUES (:question1,:question2,:question3,:question4,:question5,:question6,:question7,:question8,:question9,:question10)');
             $sql->execute(array(
@@ -33,7 +34,7 @@ else{
             ":question8"=> ($_SESSION["question8"]),
             ":question9"=> ($_SESSION["question9"]),
             ":question10"=> ($_SESSION["question10"]),
-        ));
+        ));*/
         session_destroy();
         header('Location: end.php');
         }
