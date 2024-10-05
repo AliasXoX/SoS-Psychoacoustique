@@ -20,7 +20,7 @@ else{
         $_SESSION["question".$_SESSION["question"]] = $_POST["reponse"];
         try{
             //Send all the informations to the database
-            /*$db = new PDO('mysql:host=localhost;dbname=enter_db_name', 'root', 'password');
+            /*$db = new PDO('mysql:host=enter_db_host;dbname=enter_db_name', 'username', 'password');
 
             $sql = $db->prepare('INSERT INTO `main`(`question1`, `question2`, `question3`, `question4`, `question5`, `question6`, `question7`, `question8`, `question9`, `question10`) VALUES (:question1,:question2,:question3,:question4,:question5,:question6,:question7,:question8,:question9,:question10)');
             $sql->execute(array(
