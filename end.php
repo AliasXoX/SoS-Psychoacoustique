@@ -4,8 +4,11 @@
         <?php include("./head.php") ?>
     </head>
     <body>
-        <h1>MERCI</h1>
-        <br/>
-        <a href="./">Retour à l'accueil</a>
+        <main>
+            <div class="container">
+                <h1> Merci ! </h1>
+                <a href="./" class="button-6" >Retour à l'accueil</a>
+            </div>
+        </main>
     </body>
 </html>

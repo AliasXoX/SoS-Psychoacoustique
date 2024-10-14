@@ -1,26 +1,29 @@
 <?php
 session_start();
-if (!isset($_SESSION["question"])){
-    $_SESSION["question"] = 1;
+if (!isset($_SESSION["numero"])){
+    $numbers = range(2, 10);
+    shuffle($numbers);
+    array_unshift($numbers, 1);
+    $_SESSION["ordre"] = $numbers;
+    $_SESSION["numero"] = 1;
 }
 else{
     if (isset($_POST["next"])){
-        $_SESSION["question".$_SESSION["question"]] = $_POST["reponse"];
-        if ($_SESSION["question"] < 10) {
-            $_SESSION["question"]++;
+        $_SESSION["question".$_SESSION["ordre"][$_SESSION["numero"]-1]] = $_POST["reponse"];
+        if ($_SESSION["numero"] < 10) {
+            $_SESSION["numero"]++;
         }
     }
     elseif (isset($_POST["previous"])){
-        $_SESSION["question".$_SESSION["question"]] = $_POST["reponse"];
-        if ($_SESSION["question"] > 1) {
-            $_SESSION["question"]--;    
+        $_SESSION["question".$_SESSION["ordre"][$_SESSION["numero"]-1]] = $_POST["reponse"];
+        if ($_SESSION["numero"] > 1) {
+            $_SESSION["numero"]--;    
         }
     }
     elseif (isset($_POST["send"])) {
-        $_SESSION["question".$_SESSION["question"]] = $_POST["reponse"];
+        $_SESSION["question".$_SESSION["ordre"][$_SESSION["numero"]-1]] = $_POST["reponse"];
         try{
-            //Send all the informations to the database
-            /*$db = new PDO('mysql:host=enter_db_host;dbname=enter_db_name', 'username', 'password');
+            $db = new PDO('mysql:host=localhost;dbname=sos', 'root', '');
 
             $sql = $db->prepare('INSERT INTO `main`(`question1`, `question2`, `question3`, `question4`, `question5`, `question6`, `question7`, `question8`, `question9`, `question10`) VALUES (:question1,:question2,:question3,:question4,:question5,:question6,:question7,:question8,:question9,:question10)');
             $sql->execute(array(
@@ -34,7 +37,7 @@ else{
             ":question8"=> ($_SESSION["question8"]),
             ":question9"=> ($_SESSION["question9"]),
             ":question10"=> ($_SESSION["question10"]),
-        ));*/
+        ));
         session_destroy();
         header('Location: end.php');
         }
@@ -58,7 +61,7 @@ else{
             <div class="container">
                 <form method="POST" action = "./questionnaire.php">
 
-                    <?php if ($_SESSION["question"] == 1): ?>
+                    <?php if ($_SESSION["ordre"][$_SESSION["numero"]-1]== 1): ?>
                         <h2>Qu'utilisez-vous pour écouter nos enregistrements ?</h2>
                             <input type="radio" id="headphone" name="reponse" value="headphone" required <?= (isset($_SESSION["question1"])&&$_SESSION["question1"]=="headphone") ? 'checked="true"' : "" ?>>
                             <label for="headphone">Écouteurs/Casques</label>
@@ -71,7 +74,7 @@ else{
                             <br/>
                     <?php endif ?>
 
-                    <?php if ($_SESSION["question"]== 2): ?>
+                    <?php if ($_SESSION["ordre"][$_SESSION["numero"]-1]== 2): ?>
                         <h3>Parmi ces deux enregistrements, lequel utilise l'eau la plus chaude ?</h3>
                         <br/>
                         <div class="record">
@@ -86,7 +89,7 @@ else{
                         </div>
                     <?php endif ?>
 
-                    <?php if ($_SESSION["question"]== 3): ?>
+                    <?php if ($_SESSION["ordre"][$_SESSION["numero"]-1]== 3): ?>
                         <h3>Parmi ces deux enregistrements, lequel utilise l'eau la plus chaude ?</h3>
                         <br/>
                         <div class = "record">
@@ -102,7 +105,7 @@ else{
                         </div>
                     <?php endif ?>
 
-                    <?php if ($_SESSION["question"]== 4): ?>
+                    <?php if ($_SESSION["ordre"][$_SESSION["numero"]-1]== 4): ?>
                         <h3>Parmi ces deux enregistrements, lequel utilise l'eau la plus chaude ?</h3>
                         <br/>
                         <div class="record">
@@ -118,7 +121,7 @@ else{
                         </div>
                     <?php endif ?>
                     
-                    <?php if ($_SESSION["question"]== 5): ?>
+                    <?php if ($_SESSION["ordre"][$_SESSION["numero"]-1]== 5): ?>
                         <h3>Parmi ces deux enregistrements, lequel utilise l'eau la plus chaude ?</h3>
                         <br/>
                         <div class="record">
@@ -134,8 +137,11 @@ else{
                         </div>
                     <?php endif ?>
 
-                    <?php if ($_SESSION["question"]== 6): ?>
-                        <h3> Décrivez le son que vous entendez en utilisant vos mots</h3>
+                    <?php if ($_SESSION["ordre"][$_SESSION["numero"]-1]== 6): ?>
+                        <div>
+                        <h3> Décrivez le son que vous entendez en utilisant vos mots </h3>
+                        <span>(exemple : rond, coloré, épinglant, ...)</span>
+                        </div>
                         <br/>
                         <br/>
                         <div class="record">
@@ -146,19 +152,22 @@ else{
                         </div>
                     <?php endif ?>
 
-                    <?php if ($_SESSION["question"]== 7): ?>
-                        <h3> Décrivez le son que vous entendez en utilisant vos mots</h3>
+                    <?php if ($_SESSION["ordre"][$_SESSION["numero"]-1]== 7): ?>
+                        <div>
+                        <h3> Décrivez le son que vous entendez en utilisant vos mots </h3>
+                        <span>(exemple : rond, coloré, épinglant, ...)</span>
+                        </div>
                         <br/>
                         <br/>
                         <div class="record">
                             <audio controls src="./media/03.mp3"></audio>
                             <br/>
                             <br/>
-                            <textarea id="audio7.1" name="reponse" placeholder="Rentrez votre réponse ici..." required > <?= (isset($_SESSION["question7"])) ? $_SESSION["question7"] : "" ?> </textarea>
+                            <textarea id="audio7.1" name="reponse" placeholder="Rentrez votre réponse ici..." required ><?= (isset($_SESSION["question7"])) ? $_SESSION["question7"] : "" ?></textarea>
                         </div>
                     <?php endif ?>
 
-                    <?php if ($_SESSION["question"]== 8): ?>
+                    <?php if ($_SESSION["ordre"][$_SESSION["numero"]-1]== 8): ?>
                         <h3> Duquel des enregistrements 1 et 2 l'enregistrement témoin se rapproche-t-il le plus ? </h3>
                         <br/>
                         <div class="record">
@@ -178,7 +187,7 @@ else{
                         </div>
                     <?php endif ?>
                     
-                    <?php if ($_SESSION["question"]== 9): ?>
+                    <?php if ($_SESSION["ordre"][$_SESSION["numero"]-1]== 9): ?>
                         <h3> Parmi les enregistrements 1 et 2 l'un utilise de l'eau à la même température que l'enregistrement témoin. Selon vous, lequel est-ce ? </h3>
                         <br/>
                         <div class="record">
@@ -198,7 +207,7 @@ else{
                         </div>
                     <?php endif ?>
                     
-                    <?php if ($_SESSION["question"]== 10): ?>
+                    <?php if ($_SESSION["ordre"][$_SESSION["numero"]-1]== 10): ?>
                         <h3>Parmi ces deux enregistrements, lequel utilise l'eau la plus chaude ?</h3>
                         <br/>
                         <div class="record">
@@ -215,15 +224,18 @@ else{
                     <?php endif ?> 
                     <br/>
                     <div class="submit">
-                    <?php if ($_SESSION["question"] > 1): ?>
+                    <?php if ($_SESSION["numero"] > 1): ?>
                         <input type="submit" class="button-6" id="previous" name="previous" value="Question précédente">
                     <?php endif ?>
-                    <?php if ($_SESSION["question"] < 10): ?>
+                    <?php if ($_SESSION["numero"] < 10): ?>
                         <input type="submit" class="button-6" id="next" name="next" value="Prochaine question">
                     <?php endif ?>
-                    <?php if ($_SESSION["question"] == 10): ?>
+                    <?php if ($_SESSION["numero"] == 10): ?>
                         <input type="submit" class="button-6" id="send" name="send" value="Terminer le questionnaire">
                     <?php endif ?>
+                    </div>
+                    <div class="numero">
+                        <?= $_SESSION["numero"]."/10" ?>
                     </div>
                 </form>
             </div>
