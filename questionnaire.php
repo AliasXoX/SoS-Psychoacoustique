@@ -23,7 +23,7 @@ else{
     elseif (isset($_POST["send"])) {
         $_SESSION["question".$_SESSION["ordre"][$_SESSION["numero"]-1]] = $_POST["reponse"];
         try{
-            $db = new PDO('mysql:host=localhost;dbname=sos', 'root', '');
+            $db = new PDO('mysql:host=Enterhost;dbname=enterdbname', 'user', 'password');
 
             $sql = $db->prepare('INSERT INTO `main`(`question1`, `question2`, `question3`, `question4`, `question5`, `question6`, `question7`, `question8`, `question9`, `question10`) VALUES (:question1,:question2,:question3,:question4,:question5,:question6,:question7,:question8,:question9,:question10)');
             $sql->execute(array(
